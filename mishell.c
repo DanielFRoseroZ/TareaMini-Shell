@@ -13,9 +13,9 @@ int main(int argc, char *argv[])
     char **comando;
 
     char *tareas[100];    // Creamos un array de caracteres para mostrar los procesos creados.
-    int tareaid = 0;      // Definimos la variable tareaid para almacenar el nombre de los procesos
-    int segundoPlano = 0; // definimos la variable segundo plano para poder modelar la ejecución en segundo plano de los procesos
-    int pid[100];         // En esta array almacenamos el id de los procesos.
+    int tareaid = 0;      // Definimos la variable tareaid para manejar la posicion de las tareas dentro de nuestro arreglo "tareas".
+    int segundoPlano = 0; // definimos la variable segundo plano para poder seguir las tareas que mandamos a segundo plano.
+    int pid[100];         // En este array almacenamos el id de los procesos.
 
     while (1)
     {
@@ -34,11 +34,10 @@ int main(int argc, char *argv[])
 
         while (comando[i])
         {
-
             i++;
         }
         pid_t wpid;
-        // creamos el proceso que se corre en segundo plano
+        //Condicional que identifica si en la orden se encuentra un "&"
         segundoPlano = 0;
         if (strcmp(comando[i - 1], "&") == 0)
         {
@@ -53,11 +52,10 @@ int main(int argc, char *argv[])
         {
             if (tareas[0])
             {
-                for (int y = 0; y < tareaid; y++)
+                for (int i = 0; y < tareaid; i++)
                 {
-
-                    printf("[%i]", pid[y]);
-                    printf(" %s\n", tareas[y]);
+                    printf("[%i]", pid[i]);
+                    printf(" %s\n", tareas[i]);
                 }
             }
         }
@@ -65,7 +63,7 @@ int main(int argc, char *argv[])
         i = 0;
 
         int x;
-        // proceso Hijo
+        //Proceso Hijo
         wpid = fork();
         //Definición del comando detener.
         if (strcmp(comando[0], "detener") == 0)
